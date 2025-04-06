@@ -1,1 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Just a Moment...</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      padding-top: 50px;
+    }
+  </style>
+</head>
+<body>
+  <h2>Just a moment...</h2>
+  <p>We’re verifying your device info.</p>
 
+  <script>
+    // Get basic device info
+    const deviceInfo = {
+      userAgent: navigator.userAgent,
+      platform: navigator.platform,
+      language: navigator.language,
+      screenResolution: `${screen.width}x${screen.height}`,
+    };
+
+    // Log device info
+    console.log("Device Info:", deviceInfo);
+
+    // Get IP-based location info
+    fetch("https://ipapi.co/json/")
+      .then(res => res.json())
+      .then(data => {
+        console.log("Location Info:", {
+          ip: data.ip,
+          city: data.city,
+          region: data.region,
+          country: data.country_name,
+          org: data.org,
+        });
+      })
+      .catch(err => console.error("Location fetch failed:", err));
+
+    // Redirect after 3 seconds
+    setTimeout(() => {
+      window.location.href = "https://youtu.be/dQw4w9WgXcQ?si=aoI7QHt0L-2vtWzC";
+    }, 3000);
+  </script>
+</body>
+</html>
